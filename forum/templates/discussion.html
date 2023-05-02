@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script type="text/javascript">
+    function getCurrentURL () {
+        return window.location.href
+    }
+
+    $(document).ready(function(){
+        const url = getCurrentURL()
+        const url_split = url.split("/")
+        const get_id = url_split.slice(-1)
+
+        $.get(`/forum/json-answer/${get_id}`, function(replies) {
+            for (i=0; i<replies.length; i++){
+                $('#discussion').append(` 
+                    <div id="${replies[i].id}--task"> 
+                        <div class="container-fluid"> 
+                            <div class="card" style="width: 50rem;"> 
+                                <h6 class="card-subtitle mb-2 text-muted">${replies[i].fields.username} - ${replies[i].fields.date}</h6>
+                                <p class="card-text">${replies[i].fields.content}</p>
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                        </div>
+                    </div>
+                `)
+            }
+        })
+
+        $("#submit_btn").click(function(){
+            $.post(`/forum/add-replies/${get_id}`, {
+                content: $("#content").val()
+            },
+            function(result, status){
+                if (status == 'success'){
+                    $("#discussion").append(`
+                    <div id="${result.id}--task"> 
+                        <div class="container-fluid">
+                            <div class="card" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">${result.username} - ${result.date}</h6>
+                                    <p class="card-text">${result.content}</p>
+                                    <a href="/forum/delete/${result.id}" class="btn btn-light delete mb-2">Delete</a>
+                                    <a href="#" class="card-link">Another link</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                }
+            });
+        });
+    });
+</script>
+
+<body>
+    <!-- Modal -->
+    <br>
+    <div class="modal" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createModalLabel">Add Replies</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+                </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <label for="content" class="form-label">Content</label>
+                <input type="text" id="content" class="form-control" name="content" placeholder="Type your replies here..."><br>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="submit_btn" type="button" class="btn btn-primary create" id="add-task" data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+
+<div class="jumbotron">
+    <div class="container-fluid">
+        <div class="card" style="width: 50rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ post.username }} - {{ post.date }}</h6>
+                <p class="card-text">{{ post.content }}</p>
+                <a href="#" class="btn btn-light delete mb-2">Delete</a>
+                <a class="btn btn-light delete mb-2" href="#" role="button" data-bs-toggle="modal" data-bs-target="#createModal"> Add replies</a>
+            </div>
+        </div>
+    </div>
+    <div id="discussion"></div>
+    <div id="demo"></div>
+</div>
+
+{% endblock content %}

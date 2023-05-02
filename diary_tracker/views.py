@@ -60,6 +60,7 @@ def create_diary_ajax(request):
     result = {
         'date':data.date,
         'description':data.description,
+        'id': data.id,
     }
     return JsonResponse(result)
 

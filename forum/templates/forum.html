@@ -2,8 +2,6 @@
 
 {% block content %}
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <script type="text/javascript">
     $(document).ready(function(){
         $.get("/forum/json-post/", function(data) {
@@ -14,11 +12,10 @@
                             <div class="card" style="width: 50rem;">
                                 <div class="card-body">
                                     <h5 class="card-title">${data[i].fields.title}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">${data[i].fields.username}</h6>
-                                    <h6 class="card-date mb-2 text-muted">${data[i].fields.date}</h6>
+                                    <h6 class="card-subtitle mb-2 text-muted">${data[i].fields.username} - ${data[i].fields.date}</h6>
                                     <p class="card-text">${data[i].fields.content}</p>
                                     <a href="/forum/delete/${data[i].pk}" class="btn btn-light delete mb-2">Delete</a>
-                                    <a href="#" class="card-link">Another link</a>
+                                    <a href="/forum/discussion/${data[i].pk}" class="card-link">See More</a>
                                 </div>
                             </div>
                         </div>
@@ -40,8 +37,7 @@
                             <div class="card" style="width: 50rem;">
                                 <div class="card-body">
                                     <h5 class="card-title">${result.title}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">${result.username}</h6>
-                                    <h6 class="card-date mb-2 text-muted">${result.date}</h6>
+                                    <h6 class="card-subtitle mb-2 text-muted">${result.username} - ${result.date}</h6>
                                     <p class="card-text">${result.content}</p>
                                     <a href="/forum/delete/${result.id}" class="btn btn-light delete mb-2">Delete</a>
                                     <a href="#" class="card-link">Another link</a>
@@ -50,10 +46,6 @@
                         </div>
                     </div>
                     `);
-                    $('#name').val('')
-                    $('#date').val('')
-                    $('#progress').val('')
-                    $('#description').val('')
                 }
             });
         });
