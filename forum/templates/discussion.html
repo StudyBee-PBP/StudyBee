@@ -17,10 +17,10 @@
                     <div id="${replies[i].id}--task"> 
                         <div class="container-fluid"> 
                             <div class="card" style="width: 50rem;"> 
-                                <h6 class="card-subtitle mb-2 text-muted">${replies[i].fields.username} - ${replies[i].fields.date}</h6>
-                                <p class="card-text">${replies[i].fields.content}</p>
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
+                                <div class="card-body"> 
+                                    <h6 class="card-subtitle mb-2 text-muted">${replies[i].fields.username} - ${replies[i].fields.date}</h6>
+                                    <p class="card-text">${replies[i].fields.content}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -41,8 +41,8 @@
                                 <div class="card-body">
                                     <h6 class="card-subtitle mb-2 text-muted">${result.username} - ${result.date}</h6>
                                     <p class="card-text">${result.content}</p>
-                                    <a href="/forum/delete/${result.id}" class="btn btn-light delete mb-2">Delete</a>
-                                    <a href="#" class="card-link">Another link</a>
+                                    <a href="#" class="btn btn-light delete mb-2">Delete</a>
+                                    <a href="#" class="btn btn-light mb-2">Another link</a>
                                 </div>
                             </div>
                         </div>
@@ -85,11 +85,11 @@
                 <h5 class="card-title">{{ post.title }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{ post.username }} - {{ post.date }}</h6>
                 <p class="card-text">{{ post.content }}</p>
-                <a href="#" class="btn btn-light delete mb-2">Delete</a>
                 <a class="btn btn-light delete mb-2" href="#" role="button" data-bs-toggle="modal" data-bs-target="#createModal"> Add replies</a>
             </div>
         </div>
     </div>
+    <br>
     <div id="discussion"></div>
     <div id="demo"></div>
 </div>

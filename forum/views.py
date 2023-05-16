@@ -90,6 +90,19 @@ def add_replies_ajax(request, id):
         }
         
         return JsonResponse(result)
+    
+def delete_replies(request, id):
+    replies = Replies.objects.get(pk=id)
+    replies.delete()
+
+    selected_post = replies.post
+    post_id = selected_post.id
+
+    return HttpResponseRedirect(reverse('discussion/{post_id}'))
+
+
+
+
 
 
         
