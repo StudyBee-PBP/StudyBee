@@ -23,4 +23,5 @@ urlpatterns = [
     path('tracker/', include('study_bee.urls')),
     path('diary/', include('diary_tracker.urls')),
     path('forum/', include('forum.urls')),
+    path('note/', include('class_notes.urls')),
 ]
