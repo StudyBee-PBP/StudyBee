@@ -10,6 +10,7 @@
         <th>Mata Kuliah</th>
         <th>Tanggal</th>
         <th>Isi</th>
+        <th>Aksi</th>
     </tr>
     {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
    
@@ -19,6 +20,14 @@
             <td>{{c_note.subject}}</td>
             <td>{{c_note.date}}</td>
             <td>{{c_note.content}}</td>
+            <td>
+                <a href="{% url 'class_notes:modify_note' note.pk %}">
+                    <button>
+                        Ubah
+                    </button>
+                </a>
+            </td>
+        
         </tr>
     {% endfor %}
     

@@ -41,4 +41,27 @@ def show_json_by_id(request):
     data = Note.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+def modify_note(request, id):
+    # Get data berdasarkan ID
+    note = Note.objects.get(pk = id)
+
+    # Set instance pada form dengan data dari transaction
+    form = NoteForm(request.POST or None, instance=note)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('class_notes:show_note'))
+
+    context = {'form': form}
+    return render(request, "modify_note.html", context)
+
+def delete_note(request, id):
+    # Get data berdasarkan ID
+    note = Note.objects.get(pk = id)
+   
+    note.delete()
+    
+    return HttpResponseRedirect(reverse('class_notes:show_note'))
+
 
