@@ -12,6 +12,24 @@
         <th>Isi</th>
     </tr>
     {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+   
+    {% for c_note in class_notes %}
+        <tr>
+            <td>{{c_note.title}}</td>
+            <td>{{c_note.subject}}</td>
+            <td>{{c_note.date}}</td>
+            <td>{{c_note.content}}</td>
+        </tr>
+    {% endfor %}
+    
+
 </table>
+
+<br>
+<a href="{% url 'class_notes:create_note' %}">
+    <button>
+        Catatan Baru
+    </button>
+</a>
 
 {% endblock content %}
