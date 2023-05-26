@@ -1,44 +1,171 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-{% block content %}
-<h5></h5>
-<p></p>
+<style>
+  .center {
+    margin-left: 20px;
+    margin-right: 10px;
+  }
 
-<table>
-    <tr>
-        <th>Judul</th>
-        <th>Mata Kuliah</th>
-        <th>Tanggal</th>
-        <th>Isi</th>
-        <th>Aksi</th>
-    </tr>
-    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
-   
-    {% for c_note in class_notes %}
-        <tr>
-            <td>{{c_note.title}}</td>
-            <td>{{c_note.subject}}</td>
-            <td>{{c_note.date}}</td>
-            <td>{{c_note.content}}</td>
-            <td>
-                <a href="{% url 'class_notes:modify_note' note.pk %}">
-                    <button>
-                        Ubah
-                    </button>
-                </a>
-            </td>
-        
-        </tr>
-    {% endfor %}
-    
+  .btn-primary {
+    margin-left: 20px;
+  }
 
-</table>
+  .navbar {
+    background-color: #0069d9;
+  }
+  
+</style>
 
-<br>
+<script>
+  $(document).ready(function () {
+    $.get("/note/json/", function (data) {
+      for (i = 0; i < data.length; i++) {
+        $("#note").append(`
+                  <div id="${data[i].id}--task" class="col-md-6 col-lg-3 mb-3">
+                      <div class="card d-flex">
+                          <div class="card-body d-flex flex-column">
+                              <p class="card-text date">${data[i].fields.date}</p>
+                              <p class="card-text">${data[i].fields.content}</p>
+                            <div class="mt-auto">
+                                <a href="/note/delete/${data[i].pk}" class="btn btn-primary delete mb-2">Hapus</a>
+                                <a href="/note/modify/${data[i].pk}" class="btn btn-secondary mb-2">Ubah</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        `);
+      }
+    });
+
+    $("#submit_btn").click(function () {
+      console.log("clicked");
+      $.post(
+        "/note/create-ajax/",
+        {
+          content: $("#content").val(),
+        },
+
+        function (result, status) {
+          if (status == "success") {
+            $("#note").append(`
+                      <div id="${result.id}--task" class="col-md-6 col-lg-3 mb-3">
+                          <div class="card d-flex">
+                              <div class="card-body d-flex flex-column">
+                                <p class="card-char">${result.title}</p>
+                                <p class="card-char">${result.subject}</p>
+                                <p class="card-text date">${result.date}</p>
+                                <p class="card-text">${result.content}</p>
+                                <div class="mt-auto">
+                                    <a href="/note/delete/${result.id}" class="btn btn-primary delete mb-2">Hapus</a>
+                                    <a href="/note/modify/${result.id}" class="btn btn-secondary mb-2">Ubah</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+            $("#title").val("");
+            $("#subject").val("");
+            $("#date").val("");
+            $("#content").val("");
+          }
+        }
+      );
+    });
+  });
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary shadow" style="background-color: #0069d9;">
+  <div class="d-flex">
+  <a class="navbar-brand ml-1 mr-2" href="#" style="color:#FFC107; text-shadow: 0px 1px 1px #ffffff">StudyBee</a>
+  <ul class="navbar-nav">
+      <li class="nav-item">
+      <a class="nav-link" href="#">Notes</a>
+      </li>
+  </ul>
+  </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav ml-auto">
+  </ul>
+  </div>
+</nav>
+
+
+<h5 style="text-align: right">Sesi terakhir login: {{ last_login }}</h5>
+<body>
+  <!-- Modal -->
+  <div
+    class="modal"
+    id="createModal"
+    tabindex="-1"
+    aria-labelledby="createModalLabel"
+    aria-hidden="true"
+  >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="createModalLabel">
+          Catatan Baru
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Cancel"
+        ></button>
+      </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          <label for="content" class="form-label">Isi Catatan:</label
+          ><br />
+          <input
+            type="text"
+            id="content"
+            class="form-control"
+            name="content"
+            
+          /><br />
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button
+            id="submit_btn"
+            type="button"
+            class="btn btn-primary create"
+            id="add-task"
+            data-bs-dismiss="modal"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+<br />
+
+
 <a href="{% url 'class_notes:create_note' %}">
-    <button>
-        Catatan Baru
-    </button>
+  <button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#createModal"
+>
+  Catatan Baru
+</button>
 </a>
 
 {% endblock content %}
