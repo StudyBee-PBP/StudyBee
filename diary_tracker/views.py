@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def show_tracker(request):
     context = {
-        'last_login': request.COOKIES['last_login'],
     }
     return render(request, "diary_tracker.html", context)
 
