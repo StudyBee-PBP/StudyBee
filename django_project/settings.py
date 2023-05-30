@@ -35,13 +35,13 @@ DEBUG = not PRODUCTION
 
 APP_NAME = os.getenv('APP_NAME', '')
 
-ALLOWED_HOSTS = [f'{APP_NAME}.up.railway.app']
+ALLOWED_HOSTS = [f'study-bee.domcloud.io']
 
 if not PRODUCTION:
     ALLOWED_HOSTS += ['.localhost', '127.0.0.1', '[::1]']
 
 # For CSRF origin check verification
-CSRF_TRUSTED_ORIGINS = CSRF_TRUSTED_ORIGINS = ['https://.up.railway.app']
+CSRF_TRUSTED_ORIGINS = CSRF_TRUSTED_ORIGINS = ['https://study-bee.domcloud.io']
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
