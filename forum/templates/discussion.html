@@ -20,6 +20,8 @@
                                 <div class="card-body"> 
                                     <h6 class="card-subtitle mb-2 text-muted">${replies[i].fields.username} - ${replies[i].fields.date}</h6>
                                     <p class="card-text">${replies[i].fields.content}</p>
+                                    <a href="/forum/delete-replies/${replies[i].pk}" class="btn btn-light delete mb-2">Delete</a>
+                                    <a href="#" class="btn btn-light mb-2">Another link</a>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +43,7 @@
                                 <div class="card-body">
                                     <h6 class="card-subtitle mb-2 text-muted">${result.username} - ${result.date}</h6>
                                     <p class="card-text">${result.content}</p>
-                                    <a href="#" class="btn btn-light delete mb-2">Delete</a>
+                                    <a href="/forum/delete-replies/${result.id}" class="btn btn-light delete mb-2">Delete</a>
                                     <a href="#" class="btn btn-light mb-2">Another link</a>
                                 </div>
                             </div>

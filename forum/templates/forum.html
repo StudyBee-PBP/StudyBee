@@ -15,7 +15,7 @@
                                     <h6 class="card-subtitle mb-2 text-muted">${data[i].fields.username} - ${data[i].fields.date}</h6>
                                     <p class="card-text">${data[i].fields.content}</p>
                                     <a href="/forum/delete/${data[i].pk}" class="btn btn-light delete mb-2">Delete</a>
-                                    <a href="/forum/discussion/${data[i].pk}" class="card-link">See More</a>
+                                    <a href="/forum/discussion/${data[i].pk}" class="btn btn-light delete mb-2">See More</a>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                     <h6 class="card-subtitle mb-2 text-muted">${result.username} - ${result.date}</h6>
                                     <p class="card-text">${result.content}</p>
                                     <a href="/forum/delete/${result.id}" class="btn btn-light delete mb-2">Delete</a>
-                                    <a href="/forum/discussion/${result.id}" class="card-link">See More</a>
+                                    <a href="/forum/discussion/${result.id}" class="btn btn-light delete mb-2">See More</a>
                                 </div>
                             </div>
                         </div>
@@ -80,6 +80,8 @@
     </div>
 </body>
 
+
+
 <div class="jumbotron">
     <h1 class="display-4">StudyBee Discussion Forum</h1>
     <p class="lead">Welcome to our discussion forum. You can post your question or any related queries by simply clicking on the add post button.</p>
@@ -88,17 +90,6 @@
     <p class="lead">
       <a class="btn btn-primary btn-lg" href="#" role="button" data-bs-toggle="modal" data-bs-target="#createModal"> Add Post</a>
     </p>
-    <div class="container-fluid">
-        <div class="card" style="width: 50rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>    
-    </div>
     <div id="forum"></div>
 </div>
 
