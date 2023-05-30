@@ -24,4 +24,5 @@ urlpatterns = [
     path('diary/', include('diary_tracker.urls')),
     path('forum/', include('forum.urls')),
     path('note/', include('class_notes.urls')),
+    path('auth/', include('authentication.urls')),
 ]
