@@ -1,7 +1,7 @@
 from time import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from study_bee.models import StudyPlan
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from study_bee.forms import StudyPlanForm
 from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.utils import timezone
+from django.core import serializers
 
 
 
@@ -97,3 +98,7 @@ def delete_plan(request, plan_id):
         plan.delete()
         return redirect('study_bee:planner')
     return render(request, 'delete_plan.html', {'plan': plan})
+
+def show_json(request):
+    data = StudyPlan.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
