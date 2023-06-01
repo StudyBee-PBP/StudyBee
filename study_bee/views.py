@@ -1,7 +1,7 @@
 from time import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from study_bee.models import StudyPlan
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from study_bee.forms import StudyPlanForm
 from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
@@ -108,3 +108,18 @@ def show_json_by_id(request, id):
     data = StudyPlan.objects.filter(pk=id)
 
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def add_plan_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_plan = StudyPlan.objects.create(
+            name=data["name"],
+            type=data["type"],
+            date=data["date"],
+            subject=data["subject"],
+            location=data["location"],
+            description=data["description"]
+        )
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
