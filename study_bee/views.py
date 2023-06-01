@@ -99,6 +99,11 @@ def delete_plan(request, plan_id):
         return redirect('study_bee:planner')
     return render(request, 'delete_plan.html', {'plan': plan})
 
+
+def show_json(request):
+    data = StudyPlan.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
 def show_json_by_id(request, id):
     data = StudyPlan.objects.filter(pk=id)
 
