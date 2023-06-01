@@ -1,5 +1,5 @@
 from django.urls import path
-from study_bee.views import show_planner, login_user, register, logout_user, add_plan, edit_plan, delete_plan, show_json, show_json_by_id #sesuaikan dengan nama fungsi yang dibuat
+from study_bee.views import show_planner, login_user, register, logout_user, add_plan, edit_plan, delete_plan, show_json, show_json_by_id, add_plan_flutter #sesuaikan dengan nama fungsi yang dibuat
 
 
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path('planner/add_plan/', add_plan, name='add_plan'),
     path('planner/edit_plan/<int:plan_id>/', edit_plan, name='edit_plan'),
     path('planner/delete_plan/<int:plan_id>/', delete_plan, name='delete_plan'),
-    path('json/', show_json, name='show_json'),
-    path('jsonbyid/<int:id>', show_json_by_id, name='show_json_by_id'),
+    path('planner/json/', show_json, name='show_json'),
+    path('planner/jsonbyid/<int:id>', show_json_by_id, name='show_json_by_id'),
+    path('planner/add-flutter/', add_plan_flutter, name='add_plan_flutter'),
 ]
