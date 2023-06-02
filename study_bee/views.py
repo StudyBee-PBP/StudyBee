@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 import datetime
 from django.utils import timezone
 from django.core import serializers
@@ -106,6 +107,7 @@ def show_json_by_id(request, id):
 
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@csrf_exempt
 def add_plan_flutter(request):
     if request.method == 'POST':
         data = json.loads(request.body)
