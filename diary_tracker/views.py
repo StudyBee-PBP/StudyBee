@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from diary_tracker.forms import DiaryRecordForm
@@ -65,6 +66,23 @@ def create_diary_ajax(request):
 
     context = {'form': form}
     return render(request, "create_diary.html", context)
+
+@csrf_exempt
+def create_diary_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        new_diary = DiaryRecord.objects.create(
+            description = data["description"]
+        )
+
+        new_diary.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
 
 def show_xml(request):
     data = DiaryRecord.objects.all()
