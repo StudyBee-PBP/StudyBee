@@ -1,3 +1,4 @@
+import json
 from time import timezone
 from django.shortcuts import get_object_or_404, render, redirect
 from study_bee.models import StudyPlan
@@ -54,7 +55,7 @@ def logout_user(request):
     return response
 
 
-@login_required(login_url='/study_bee/login/')
+@login_required(login_url='/planner/login/')
 def show_planner(request):
     if request.method == 'POST':
         form = StudyPlanForm(request.POST)
@@ -120,6 +121,9 @@ def add_plan_flutter(request):
             location=data["location"],
             description=data["description"]
         )
+
+        new_plan.save()
+        
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
