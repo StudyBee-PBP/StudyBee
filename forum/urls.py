@@ -10,7 +10,7 @@ urlpatterns = [
     path('discussion/<int:id>', show_discussion, name='show_discussion'), 
     path('delete/<int:id>', delete_forum, name='delete_forum'),
     path('json-post/', get_post_json, name='json-post'),
+    path('json-post/<int:id>', get_post_json_by_id, name='get_post_json_by_id'),
     path('json-answer/<int:id>', get_replies_json, name='get_replies_json'),
     path('delete-replies/<int:id>', delete_replies, name='delete_replies')
-
 ]

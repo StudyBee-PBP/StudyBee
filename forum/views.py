@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-@login_required(login_url='/tracker/login/')
+@login_required(login_url='/planner/login/')
 def show_forum(request):
     post_data = Post.objects.all()
     user = request.user
@@ -23,7 +23,7 @@ def show_forum(request):
     
     return render(request, 'forum.html', context)
 
-@login_required(login_url='/tracker/login/')
+@login_required(login_url='/planner/login/')
 def show_discussion(request, id):
     selected_post = Post.objects.get(pk=id)
 
@@ -33,7 +33,7 @@ def show_discussion(request, id):
     }
     return render(request, 'discussion.html', context)
 
-@login_required(login_url='/tracker/login/')
+@login_required(login_url='/planner/login/')
 @csrf_exempt
 def create_forum_ajax(request):
     if request.method == "POST":
@@ -71,6 +71,12 @@ def delete_forum(request, id):
 def get_post_json(request):
     data = Post.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def get_post_json_by_id(request, id):
+    data = Post.objects.get(pk=id)
+
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
 
 def get_replies_json(request, id):
     selected_post = Post.objects.get(pk=id)
