@@ -17,8 +17,17 @@ from django.core import serializers
 
 
 # Create your views here.
-
-
+@login_required(login_url='/planner/login/')
+def show_planner(request):
+    if request.method == 'POST':
+        form = StudyPlanForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = StudyPlanForm()
+    now = timezone.now()
+    study_plans = StudyPlan.objects.all().order_by('-date')
+    return render(request, 'planner.html', {'form': form, 'study_plans': study_plans, 'now': now})
 
 def register(request):
     form = UserCreationForm()
@@ -53,19 +62,6 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('study_bee:login'))
     response.delete_cookie('last_login')
     return response
-
-
-@login_required(login_url='/planner/login/')
-def show_planner(request):
-    if request.method == 'POST':
-        form = StudyPlanForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = StudyPlanForm()
-    now = timezone.now()
-    study_plans = StudyPlan.objects.all().order_by('-date')
-    return render(request, 'planner.html', {'form': form, 'study_plans': study_plans, 'now': now})
 
 def add_plan(request):
     if request.method == 'POST':
@@ -123,7 +119,7 @@ def add_plan_flutter(request):
         )
 
         new_plan.save()
-        
+
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
