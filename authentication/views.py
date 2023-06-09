@@ -1,7 +1,9 @@
+import json
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
 
 # Create your views here.
 @csrf_exempt
@@ -47,4 +49,22 @@ def logout(request):
         "status": False,
         "message": "Logout gagal."
         }, status=401)
+
+@csrf_exempt
+def register(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        new_user = User.objects.create_user(
+            username = data["username"],
+            password = data["password"]
+        )
+
+        new_user.save()
+        
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
 
