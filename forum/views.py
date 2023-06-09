@@ -1,4 +1,5 @@
 import datetime
+import json
 from django.shortcuts import render
 from forum.models import Post, Replies
 from forum.forms import PostForm, RepliesForm
@@ -7,6 +8,7 @@ from django.urls import reverse
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -73,10 +75,14 @@ def get_post_json(request):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def get_post_json_by_id(request, id):
-    data = Post.objects.get(pk=id)
+    data = Post.objects.filter(pk=id)
 
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+def get_post_json_by_username(request, username):
+    data = Post.objects.filter(username=username) 
+
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def get_replies_json(request, id):
     selected_post = Post.objects.get(pk=id)
@@ -122,12 +128,51 @@ def delete_replies(request, id):
 
     return HttpResponseRedirect(url)
 
+@csrf_exempt
+def create_forum_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        selected_user = User.objects.get(username=data["username"])
+
+        new_post = Post.objects.create(
+            user = selected_user,
+            username = data["username"],
+            title = data["title"],
+            content = data["content"],
+        )
+
+        new_post.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+    
+@csrf_exempt
+def add_replies_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        selected_user = User.objects.get(username=data["username"])
+        selected_post = Post.objects.get(pk=data["id"])
+
+        new_replies = Replies.objects.create(
+            user = selected_user,
+            username = data["username"],
+            post = selected_post,
+            content = data["content"]
+        )
+
+        new_replies.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
 
 
 
-
-
-        
 
 
 

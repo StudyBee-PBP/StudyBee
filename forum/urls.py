@@ -11,6 +11,9 @@ urlpatterns = [
     path('delete/<int:id>', delete_forum, name='delete_forum'),
     path('json-post/', get_post_json, name='json-post'),
     path('json-post/<int:id>', get_post_json_by_id, name='get_post_json_by_id'),
+    path('json-post/<str:username>', get_post_json_by_username, name='get_post_json_by_username'),
     path('json-answer/<int:id>', get_replies_json, name='get_replies_json'),
-    path('delete-replies/<int:id>', delete_replies, name='delete_replies')
+    path('delete-replies/<int:id>', delete_replies, name='delete_replies'),
+    path('create-flutter/', create_forum_flutter, name='create_forum_flutter'),
+    path('add-replies-flutter/', add_replies_flutter, name='add_replies_flutter'),
 ]
