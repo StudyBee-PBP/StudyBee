@@ -171,6 +171,35 @@ def add_replies_flutter(request):
     else:
         return JsonResponse({"status": "error"}, status=401)
 
+@csrf_exempt
+def delete_forum_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        post = Post.objects.get(pk=data["id"])
+        post.delete()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_replies_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        replies = Replies.objects.get(pk=data["id"])
+        replies.delete
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+
+
+
 
 
 
