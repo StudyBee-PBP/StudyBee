@@ -74,6 +74,7 @@ def get_post_json(request):
     data = Post.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@csrf_exempt
 def get_post_json_by_id(request, id):
     data = Post.objects.filter(pk=id)
 
@@ -172,12 +173,10 @@ def add_replies_flutter(request):
         return JsonResponse({"status": "error"}, status=401)
 
 @csrf_exempt
-def delete_forum_flutter(request):
-    if request.method == 'POST':
+def delete_forum_flutter(request, id):
+    if request.method == 'DELETE':
 
-        data = json.loads(request.body)
-
-        post = Post.objects.get(pk=data["id"])
+        post = Post.objects.get(pk=id)
         post.delete()
 
         return JsonResponse({"status": "success"}, status=200)
@@ -185,13 +184,11 @@ def delete_forum_flutter(request):
         return JsonResponse({"status": "error"}, status=401)
 
 @csrf_exempt
-def delete_replies_flutter(request):
-    if request.method == 'POST':
+def delete_replies_flutter(request, id):
+    if request.method == 'DELETE':
 
-        data = json.loads(request.body)
-
-        replies = Replies.objects.get(pk=data["id"])
-        replies.delete
+        replies = Replies.objects.get(pk=id)
+        replies.delete()
 
         return JsonResponse({"status": "success"}, status=200)
     else:
