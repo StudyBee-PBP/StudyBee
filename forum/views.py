@@ -194,6 +194,36 @@ def delete_replies_flutter(request, id):
     else:
         return JsonResponse({"status": "error"}, status=401)
 
+def modify_post(request, id):
+    post = Post.objects.get(pk=id)
+
+    form = PostForm(request.POST or None, instance=post)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+
+        return HttpResponseRedirect(reverse("forum:show_forum"))
+    
+    context = {'form': form}
+    return render(request, "modify_post.html", context)
+
+def modify_replies(request, id):
+    replies = Replies.objects.get(pk=id)
+
+    selected_post_id = replies.post.pk
+
+    form = RepliesForm(request.POST or None, instance=replies)
+
+    if form.is_valid and request.method == "POST":
+        form.save()
+
+        url = f'/forum/discussion/{selected_post_id}'
+        return HttpResponseRedirect(url)
+    
+    context = {'form': form}
+    return render(request, "modify_replies.html", context)
+
+
 
 
 

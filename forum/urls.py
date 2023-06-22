@@ -18,4 +18,6 @@ urlpatterns = [
     path('add-replies-flutter/', add_replies_flutter, name='add_replies_flutter'),
     path('delete-flutter/<int:id>', delete_forum_flutter, name='delete_forum_flutter'),
     path('delete-replies-flutter/<int:id>', delete_replies_flutter, name='delete_replies_flutter'),
+    path('edit-post/<int:id>', modify_post, name='modify_post'),
+    path('edit-replies/<int:id>', modify_replies, name='modify_replies'),
 ]
